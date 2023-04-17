@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 /* function prototypes */
 int _strcmp(char *s1, char *s2);
