@@ -10,6 +10,16 @@ int main(int __attribute__((unused)) ac, char **av, char **env)
 	while (1)
 	{
 		user_input = _getline();
-		
+		if (!user_input) /* if getline fails */
+		{
+			if (isatty(STDIN_FILENO))
+				write(STDOUT_FILENO, "\n", 1);
+			exit(exit_status);
+		}
+		else
+		{
+			nth_process++;
+			command = get_token(user_input);
+		}
 	}
 }
