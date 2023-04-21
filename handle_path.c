@@ -1,4 +1,5 @@
 #include "main.h"
+#include <string.h>
 
 char *get_path(char **env)
 {
@@ -17,7 +18,7 @@ char *get_path(char **env)
 		return (NULL);
 
 	/* store the path values in the allocated memory space */
-	for (ele = 5, count = 0; env[head][ele]; var++, count++)
+	for (ele = 5, count = 0; env[head][ele]; ele++, count++)
 		path[count] = env[head][ele];
 	path[count] = '\0';
 
@@ -31,7 +32,7 @@ int handle_path(char **command, char **env)
 	struct stat check;
 
 	if (stat(*command, &check) == 0) /* need to confirm stat return value */
-		return (-1); /* command matches, no need to check from path */
+		return (1); /* command matches, no need to check from path */
 	path_value = get_path(env);
 	if (!path_value) /* failed to get path value */
 		return (-1);

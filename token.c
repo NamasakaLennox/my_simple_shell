@@ -1,4 +1,5 @@
 #include "main.h"
+#include <string.h>
 
 char **get_token(char *input)
 {
@@ -12,7 +13,7 @@ char **get_token(char *input)
 	/* get number of elements */
 	for (count = 0; input[count]; count++)
 	{
-		if (input[count] = ' ')
+		if (input[count] == ' ')
 			num_elements++;
 	}
 	/* if it is only made up of a new line character */
@@ -33,52 +34,44 @@ char **get_token(char *input)
 	return (command);
 }
 
-unsigned int check_delim(char c, char *delim)
+char *_strtok(char *str, const char *delim)
 {
-	while (*delim != '\0')
+	static int pos;
+	static char *token;
+	char *string = NULL;
+	int check_delim = 0, size = 0, i, j;
+
+	if (str) /* first time calling _strtok */
 	{
-		if (c == *delim)
-			return (1);
-		delim++;
+		token = str;
+		pos = 0;
 	}
-	return (0);
-}
-
-char *_strtok(char *src, const char *delim)
-{
-	static char *next_search;
-	char *value;
-
-	if (!src)
-		src = next_search;
-	if (!src)
+	if (!token || !delim)
 		return (NULL);
-	while (1) /* handle begining of the string */
+	if (pos >= _strlen(token))
+		return (NULL);
+	for (i = pos; token[i]; i++) /* find delimiter */
 	{
-		if (check_delim(src, delim))
+		for (j = 0; delim[j]; j++)
 		{
-			src++;
-			continue;
+			if (token[i] == delim[j])
+			{
+				check_delim = 1;
+				break;
+			}
 		}
-		if (src == '\0') /* end of string */
-			return (NULL);
-		break;
+		if (check_delim == 1)
+			break;
+		size++;
 	}
+	string = malloc(sizeof(char) * (size + 1));
+	if (!string)
+		return (NULL);
+	for (i = 0; i < size; i++) /* fill string with new token */
+		string[i] = token[pos + i];
+	string[i] = '\0';
+	pos += size + 1;
 
-	value = src;
-	while (1)
-	{
-		if (src = '\0')
-		{
-			next_search = src; /* next exec will return NULL */
-			return (value);
-		}
-		if (check_delim(src, delim))
-		{
-			src = '\0';
-			next_search = src + 1;
-			return (value);
-		}
-		src++;
-	}
+	return (string);
+
 }
