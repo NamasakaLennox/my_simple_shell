@@ -73,5 +73,4 @@ char *_strtok(char *str, const char *delim)
 	pos += size + 1;
 
 	return (string);
-
 }

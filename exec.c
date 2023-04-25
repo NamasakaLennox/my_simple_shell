@@ -15,7 +15,7 @@ int execute(char **command, char **av, char **env, char *input, int path_ret)
 			perror(av[0]);
 			for (i = 0; command[i]; i++)
 				free(command[i]);
-			free(command);
+			/* free(command); */
 			free(input);
 			exit(errno);
 		}

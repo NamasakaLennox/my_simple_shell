@@ -35,10 +35,10 @@ int main(int __attribute__((unused)) ac, char **av, char **env)
 				if (path_ret != -1)
 					exit_status = execute(command, av, env,
 							      user_input, path_ret);
-				for (i = 0; command[i]; i++) /* need looking at */
-					free(command[i]);
+				for (i = 0; command[i]; command++)
+                                        free(command[i]);
 			}
-			free(command);
+			/* free(command); */
 		}
 		free(user_input);
 	}
