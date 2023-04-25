@@ -1,66 +1,86 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "main.h"
 #include <string.h>
-#include <unistd.h>
 
-char *_strchr(const char *s, int c)
+char **get_token(char *input)
 {
-	while (*s != (char)c)
-		if (!*s++)
-			return (0);
-	return ((char *)s);
-}
+	char *token = NULL, **command = NULL;
+	size_t count;
+	int num_elements = 0;
 
-size_t _strcspn(const char *s1, const char *s2)
-{
-	size_t ret = 0;
+	if (!input)
+		return (NULL);
 
-	while (*s1)
+	/* get number of elements */
+	for (count = 0; input[count]; count++)
 	{
-		if (_strchr(s2, *s1))
-			return (ret);
-		s1++, ret++;
+		if (input[count] == ' ')
+			num_elements++;
 	}
-	return (ret);
+	/* if it is only made up of a new line character */
+	if ((num_elements + 1) == _strlen(input))
+		return (NULL);
+	num_elements += 2; /* spaces is always 1 less than words */
+	command = malloc(sizeof(char *) * (num_elements));
+	if (!command)
+		return (NULL);
+
+	token = _strtok(input, " \n\t\r");
+	for (count = 0; token != NULL; count++)
+	{
+		command[count] = token;
+		token = _strtok(NULL, " \n\t\r");
+	}
+	command[count] = NULL;
+	return (command);
 }
 
-size_t _strspn(const char *s1, const char *s2)
+unsigned int check_delim(char c, const char *str)
 {
-	size_t ret = 0;
+	unsigned int count;
 
-	while (*s1 && _strchr(s2, *s1++))
-		ret++;
-	return (ret);
+	for (count = 0; str[count] != '\0'; count++)
+	{
+		if (c == str[count])
+			return (1);
+	}
+	return (0);
 }
 
 char *_strtok(char *str, const char *delim)
 {
-	static char *p;
+	static char *token, *new_token;
+	unsigned int i;
 
-	if (str)
-		p = str;
-	else if (!p)
-		return (0);
-	str = p + _strspn(p, delim);
-	p = str + _strcspn(str, delim);
-	if (p == str)
-		return (p = 0);
-	p = *p ? *p = 0, p + 1 : 0;
-	return (str);
-}
-
-int main(void)
-{
-	char *token;
-	char *string = "This is\tmy\rhouse";
-	char *delim = " \t\r";
-
-	token = _strtok(string, delim);
-
-	while (token != NULL)
+	if (str != NULL)
+		new_token = str;
+	token = new_token;
+	if (token == NULL)
+		return (NULL);
+	for (i = 0; token[i] != '\0'; i++)
 	{
-		printf("%s\n", token);
-		token = _strtok(NULL, delim);
+		if (check_delim(token[i], delim) == 0)
+			break;
 	}
-	return (0);
+	if (new_token[i] == '\0' || new_token[i] == '#')
+	{
+		new_token = NULL;
+		return (NULL);
+	}
+	token = new_token + i;
+	new_token = token;
+	for (i = 0; new_token[i] != '\0'; i++)
+	{
+		if (check_delim(new_token[i], delim) == 1)
+			break;
+	}
+	if (new_token[i] == '\0')
+		new_token = NULL;
+	else
+	{
+		new_token[i] = '\0';
+		new_token = new_token + i + 1;
+		if (*new_token == '\0')
+			new_token = NULL;
+	}
+	return (token);
 }

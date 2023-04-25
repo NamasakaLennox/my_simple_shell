@@ -4,7 +4,6 @@ int execute(char **command, char **av, char **env, char *input, int path_ret)
 {
 	pid_t child_process;
 	int status, exit_status;
-	char *message = "%s: %d: %s: not found\n";
 
 	(void)path_ret;
 	child_process = fork();
