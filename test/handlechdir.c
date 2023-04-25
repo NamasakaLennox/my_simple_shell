@@ -12,8 +12,9 @@ void handlechdir(char **input_toks, char **envp)
 	char *path = input_toks[1], *oldpath;
 	int result;
 	char *env_toks[10];
+
 	oldpath = getenvp("OLDPWD", envp);
-	
+
 
 	getcwd(cwd, sizeof(cwd));
 	env_toks[0] = "setenv";
@@ -56,10 +57,9 @@ void handlechdir(char **input_toks, char **envp)
 void changedir(char *path, int cd_result)
 {
 	char cwd[1024];
-	char *set_env_toks[20];
+	char *set_env_toks[10];
 
 	(void)path;
-
 	getcwd(cwd, sizeof(cwd));
 
 	set_env_toks[0] = "setenv";
