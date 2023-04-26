@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <limits.h>
 
 /* function prototypes */
 char *_getline(void);
@@ -22,8 +23,9 @@ char *get_path(char **env);
 int handle_path(char **command, char **env);
 int execute(char **command, char **av, char **env, char *input, int path_ret);
 int handle_other(char **command, char *user_input, int exit_status,
-                 char **env);
-void handle_echo(char *command, int exit_status);
+                 char **env, char *av);
+void handle_echo(char **command, int exit_status, char **env);
+void change_dir(char **command, char *av);
 
 /* string functions */
 int _strcmp(char *s1, char *s2);
@@ -35,6 +37,7 @@ char *_strcpy(char *dest, char *src);
 int _atoi(char *s);
 void _itoa(int n, char *str, int base);
 void rev_string(char *str);
+char *_strdup(const char *str);
 
 /* print functions */
 int _putchar(char c);

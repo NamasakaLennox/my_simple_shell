@@ -78,3 +78,30 @@ void rev_string(char *str)
 		str[j] = chr;
 	}
 }
+
+/**
+ * _strdup - replicates a string in the heap memory.
+ * @s: Type char pointer str
+ * Return: duplicated str
+ */
+char *_strdup(const char *str)
+{
+	char *strout;
+	unsigned int i, j;
+
+	if (str == NULL)
+		return (NULL);
+
+	for (i = 0; str[i] != '\0'; i++)
+		;
+
+	strout = (char *)malloc(sizeof(char) * (i + 1));
+
+	if (strout == NULL)
+		return (NULL);
+
+	for (j = 0; j <= i; j++)
+		strout[j] = str[j];
+
+	return (strout);
+}

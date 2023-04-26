@@ -26,7 +26,7 @@ int main(int __attribute__((unused)) ac, char **av, char **env)
 				continue;
 			}
 			if (handle_other(command, user_input, exit_status,
-					 env) == 0)
+					 env, av[0]) == 0)
 			{
 				path_ret = handle_path(&command[0], env);
 				exit_status = execute(command, av, env,

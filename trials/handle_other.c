@@ -1,7 +1,7 @@
 #include "main.h"
 
 int handle_other(char **command, char *user_input, int exit_status,
-		 char **env)
+		 char **env, char *av)
 {
 	if (!_strcmp(command[0], "exit"))
 		handle_exit(command, user_input, exit_status);
@@ -23,7 +23,7 @@ int handle_other(char **command, char *user_input, int exit_status,
 
 	if (!_strcmp(command[0], "cd"))
 	{
-		change_dir(command);
+		change_dir(command, av);
 		return (1);
 	}
 	return (0);
@@ -66,7 +66,7 @@ void handle_echo(char **command, int exit_status, char **env)
 	_puts("\n");
 }
 
-void change_dir(char **command)
+void change_dir(char **command, char *av)
 {
 	int value = -1;
 	char cwd[PATH_MAX];
@@ -80,7 +80,7 @@ void change_dir(char **command)
 
 	if (value == -1)
 	{
-		perror("hsh");
+		perror(av);
 		return;
 	}
 	else if (value != -1)
