@@ -1,5 +1,10 @@
 #include "main.h"
 
+/**
+ * _getline - gets input from user
+ *
+ * Return: returns the line read, NULL if it fails
+ */
 char *_getline(void)
 {
 	char *line = NULL;

@@ -1,6 +1,13 @@
 #include "main.h"
-#include <string.h>
 
+/**
+ * main - where execution begins
+ * @ac: argument count from commandline
+ * @av: array of argument strings
+ * @env: environment variable from the program
+ *
+ * Return: returns 0 on successful execution
+ */
 int main(int __attribute__((unused)) ac, char **av, char **env)
 {
 	char *user_input = NULL, **command = NULL;
@@ -25,12 +32,14 @@ int main(int __attribute__((unused)) ac, char **av, char **env)
 				free(command);
 				continue;
 			}
-			if (handle_other(command, user_input, exit_status,
-					 env, av[0]) == 0)
+			exit_status = handle_other(command, user_input, exit_status,
+						   env, av[0]);
+			if (exit_status == -1)
 			{
 				path_ret = handle_path(&command[0], env);
 				exit_status = execute(command, av, env,
-						      user_input, path_ret);
+						      user_input, path_ret,
+						      nth_process);
 				if (path_ret == 0)
 					free(command[0]);
 			}

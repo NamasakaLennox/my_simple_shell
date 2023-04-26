@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+ * _putchar - prints a character in the standard output
+ * @c: the character to print
+ *
+ * Return: 1(the number of characters printed
+ */
 int _putchar(char c)
 {
 	static char buffer[1024];

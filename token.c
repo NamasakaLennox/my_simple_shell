@@ -1,6 +1,12 @@
 #include "main.h"
-#include <string.h>
 
+/**
+ * get_token - tokenizes the user input and stores them in an array of strings
+ * @input: the string to tokenize
+ *
+ * Return: an array of strings
+ * returns NULL if error
+ */
 char **get_token(char *input)
 {
 	char *token = NULL, **command = NULL;
@@ -34,6 +40,14 @@ char **get_token(char *input)
 	return (command);
 }
 
+/**
+ * check_delim - checks if a character is a delimiter
+ * @c: the character to check
+ * @str: the string of delimiters
+ *
+ * Return: 0 if character is not delimiter
+ * else returns 1 if delimiter
+ */
 unsigned int check_delim(char c, const char *str)
 {
 	unsigned int count;
@@ -46,6 +60,13 @@ unsigned int check_delim(char c, const char *str)
 	return (0);
 }
 
+/**
+ * _strtok - tokenizes a string using specified delimiters
+ * @str: the string to tokenize
+ * @delim: the string of delimiters
+ *
+ * Return: a tokenized string
+ */
 char *_strtok(char *str, const char *delim)
 {
 	static char *token, *new_token;

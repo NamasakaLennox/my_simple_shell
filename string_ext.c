@@ -1,42 +1,46 @@
 #include "main.h"
 
+/**
+ * _atoi - converts string to integer
+ * @s: the string to convert
+ *
+ * Return: returns the converted number
+ */
 int _atoi(char *s)
 {
-        int count, sign, result, check;
-        unsigned int num;
+	int count, sign, result, check;
+	unsigned int num;
 
-        /* initialise sign as positive and number as zero */
-        count = 0;
-        sign = 1;
-        num = 0;
-        /* iterates through the string */
-        while (s[count] != '\0')
-        {
-                /* change sign if negative is encountered */
-	        if (s[count] == '-')
-                {
-                 	sign = -sign;
-                }
-                /* if number counvert it to int */
-                else if (s[count] >= '0' && s[count] <= '9')
+	/* initialise sign as positive and number as zero */
+	count = 0;
+	sign = 1;
+	num = 0;
+	/* iterates through the string */
+	while (s[count] != '\0')
+	{
+		/* change sign if negative is encountered */
+		if (s[count] == '-')
 		{
-                        num = num * 10 + (s[count] - '0');
-                        check = count + 1;
-                        /* break if next digit is not a number */
-                        if (s[check] < '0' || s[check] > '9')
-                        {
-	                        break;
-                        }
-	        }
-	        count++;
+			sign = -sign;
+		}
+		/* if number counvert it to int */
+		else if (s[count] >= '0' && s[count] <= '9')
+		{
+			num = num * 10 + (s[count] - '0');
+			check = count + 1;
+			/* break if next digit is not a number */
+			if (s[check] < '0' || s[check] > '9')
+				break;
+		}
+		count++;
 	}
-        result = num * sign;
+	result = num * sign;
 	return (result);
 }
 
 /**
- * itoa - converts an integer to a string
- * @num: the integer to be converted
+ * _itoa - converts an integer to a string
+ * @n: the integer to be converted
  * @str: the buffer to store the string
  * @base: the base to use for the conversion
  *
@@ -48,8 +52,7 @@ void _itoa(int n, char *str, int base)
 
 	if (sign < 0)
 		n = -n;
-	do
-	{
+	do {
 		str[i++] = n % base + '0';
 	} while ((n /= base) > 0);
 
@@ -63,8 +66,6 @@ void _itoa(int n, char *str, int base)
 /**
  * rev_string - reverses a string
  * @str: the string to be reversed
- *
- * Return: void
  */
 void rev_string(char *str)
 {
@@ -81,7 +82,8 @@ void rev_string(char *str)
 
 /**
  * _strdup - replicates a string in the heap memory.
- * @s: Type char pointer str
+ * @str: the string to duplicate
+ *
  * Return: duplicated str
  */
 char *_strdup(const char *str)

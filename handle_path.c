@@ -1,6 +1,11 @@
 #include "main.h"
-#include <string.h>
 
+/**
+ * get_path - gets the PATH value from environment variable
+ * @env: the environment variable of the program
+ *
+ * Return: returns the value of PATH
+ */
 char *get_path(char **env)
 {
 	size_t count, head, ele = 0; /* ele is element */
@@ -25,6 +30,14 @@ char *get_path(char **env)
 	return (path);
 }
 
+/**
+ * handle_path - handles the path value and tokenizes it
+ * @command: array of tokenized user command
+ * @env: environment variable from the current program
+ *
+ * Return: returns 0 on success(found command in PATH)
+ * else -1 on error or no need to modify path
+ */
 int handle_path(char **command, char **env)
 {
 	char *path_value = NULL, *new_path = NULL, *token = NULL;
@@ -42,7 +55,7 @@ int handle_path(char **command, char **env)
 	{
 		path_len = _strlen(token);
 		new_path = malloc(sizeof(char) * (path_len + command_len + 2));
-		if(!new_path)
+		if (!new_path)
 		{
 			free(path_value);
 			return (-1);
