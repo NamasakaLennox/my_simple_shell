@@ -1,5 +1,4 @@
 #include "main.h"
-char pid_str[32], exit_str[32];
 
 /**
  * handle_other - handles other commands that are not in PATH
@@ -14,8 +13,6 @@ char pid_str[32], exit_str[32];
 int handle_other(char **command, char *user_input, int exit_status,
 		 char **env, char *av)
 {
-	int i;
-
 	if (!_strcmp(command[0], "exit"))
 		handle_exit(command, user_input, exit_status);
 	if (!_strcmp(command[0], "env"))
@@ -23,12 +20,9 @@ int handle_other(char **command, char *user_input, int exit_status,
 		handle_env(env);
 		return (0);
 	}
-	for (i = 0; command[i] != NULL; i++)
-	{
-		if (!_strcmp(command[i], "$$") || !_strcmp(command[i], "$?"))
-			command[i] = handle_replacement(command[i],
-							exit_status);
-	}
+	if (!_strcmp(command[0], "$$") || !_strcmp(command[0], "$?"))
+		handle_replacement(&command[0], exit_status);
+
 	if (!_strcmp(command[0], "echo"))
 	{
 		if (command[1] == NULL)
@@ -56,14 +50,27 @@ int handle_other(char **command, char *user_input, int exit_status,
  */
 void handle_echo(char **command, int exit_status, char **env)
 {
+	pid_t pid = getpid();
+	char pid_str[32], exit_str[32];
 	char *path;
 	int i;
 
-	(void)exit_status; /* should remove the function param */
+	_itoa(pid, pid_str, 10);
+	_itoa(exit_status, exit_str, 10);
 	for (i = 1; command[i] != NULL; i++)
 	{
 		if (i > 1)
 			_puts(" ");
+		if (!_strcmp(command[i], "$?"))
+		{
+			write(1, exit_str, _strlen(exit_str));
+			continue;
+		}
+		if (!_strcmp(command[i], "$$"))
+		{
+			write(1, pid_str, _strlen(pid_str));
+			continue;
+		}
 		if (!_strcmp(command[i], "$PATH"))
 		{
 			path = get_path(env);
@@ -76,19 +83,18 @@ void handle_echo(char **command, int exit_status, char **env)
 	_puts("\n");
 }
 
-char *handle_replacement(char *command, int exit_status)
+/**
+ * handle_replacement - replaces the $? and $$ commands
+ * @command: the address of the command to replace
+ * @exit_status: exit status of the previous command
+ */
+void handle_replacement(char **command, int exit_status)
 {
 	pid_t pid = getpid();
 
-	if (!_strcmp(command, "$$"))
-	{
-		_itoa(pid, pid_str, 10);
-		return (pid_str);
-	}
-	if (!_strcmp(command, "$?"))
-	{
-		_itoa(exit_status, exit_str, 10);
-		return (exit_str);
-	}
-	return (NULL);
+	if (!_strcmp(*command, "$$"))
+		_itoa(pid, *command, 10);
+
+	if (!_strcmp(*command, "$?"))
+		_itoa(exit_status, *command, 10);
 }

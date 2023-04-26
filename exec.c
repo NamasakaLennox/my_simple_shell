@@ -7,6 +7,7 @@
  * @env: array of environment variables
  * @input: input from the user
  * @path_ret: return value of the get path function
+ * @process_num: the process number
  *
  * Return: returns 0 on success or exit status on error
  */
@@ -51,6 +52,12 @@ int execute(char **command, char **av, char **env, char *input, int path_ret,
 	return (0);
 }
 
+/**
+ * print_err - prints an error message
+ * @name: name of the program
+ * @process_num: the process id of the process
+ * @command: the command that was not found
+ */
 void print_err(char *name, int process_num, char *command)
 {
 	char proc[32];

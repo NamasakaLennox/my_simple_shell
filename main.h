@@ -28,7 +28,7 @@ int handle_other(char **command, char *user_input, int exit_status,
 		 char **env, char *av);
 void handle_echo(char **command, int exit_status, char **env);
 void change_dir(char **command, char *av);
-char *handle_replacement(char *command, int exit_status);
+void handle_replacement(char **command, int exit_status);
 
 /* string functions */
 int _strcmp(char *s1, char *s2);
